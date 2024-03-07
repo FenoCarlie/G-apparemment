@@ -207,13 +207,13 @@ function Appartement() {
                     </div>
                 </div>
                 <div className="bg-[#ffffff] w-[30%] rounded-l-xl mt-4">
-                    <div className="mt-6 flex items-center justify-between flex-wrap p-4">
+                    <div className="mt-6 items-center justify-between flex-wrap p-4">
                         <div className="flex items-center flex-shrink-0 mr-6">
                             <span className="font-semibold text-xl tracking-tight">
                                 Add a new apartment
                             </span>
+                            <div className="w-[75%]"></div>
                         </div>
-                        <div className="w-[75%]"></div>
                     </div>
                 </div>
             </div>

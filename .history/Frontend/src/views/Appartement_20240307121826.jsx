@@ -57,7 +57,7 @@ function Appartement() {
 
     return (
         <>
-            <div className="pl-6 pt-6 flex justify-between">
+            <div className="pl-6 pt-6">
                 <div className="bg-[#ffffff] w-[65%] rounded-xl mr-5">
                     <header className="mt-6 flex items-center justify-between flex-wrap p-4">
                         <div className="flex items-center flex-shrink-0 mr-6">
@@ -206,16 +206,7 @@ function Appartement() {
                         </div>
                     </div>
                 </div>
-                <div className="bg-[#ffffff] w-[30%] rounded-l-xl mt-4">
-                    <div className="mt-6 flex items-center justify-between flex-wrap p-4">
-                        <div className="flex items-center flex-shrink-0 mr-6">
-                            <span className="font-semibold text-xl tracking-tight">
-                                Add a new apartment
-                            </span>
-                        </div>
-                        <div className="w-[75%]"></div>
-                    </div>
-                </div>
+                <div className="h-[35%]"></div>
             </div>
         </>
     );

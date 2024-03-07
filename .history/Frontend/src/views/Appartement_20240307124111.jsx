@@ -213,7 +213,6 @@ function Appartement() {
                                 Add a new apartment
                             </span>
                         </div>
-                        <div className="w-[75%]"></div>
                     </div>
                 </div>
             </div>

@@ -212,8 +212,8 @@ function Appartement() {
                             <span className="font-semibold text-xl tracking-tight">
                                 Add a new apartment
                             </span>
+                            <div className="w-75%"></div>
                         </div>
-                        <div className="w-[75%]"></div>
                     </div>
                 </div>
             </div>
