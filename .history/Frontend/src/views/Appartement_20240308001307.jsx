@@ -56,7 +56,7 @@ function Appartement() {
         getLoyer();
     }, []);
 
-    const [field, setField] = useState(true);
+    const [field, setField] = useState(false);
 
     const openField = () => {
         setField(true);
@@ -67,7 +67,7 @@ function Appartement() {
 
     return (
         <>
-            <div className="pl-6 pt-6 flex justify-between h-screen">
+            <div className="pl-6 pt-6 flex justify-between">
                 <div className="bg-[#ffffff] w-[65%] rounded-xl mr-5">
                     <header className="mt-6 flex items-center justify-between flex-wrap p-4">
                         <div className="flex items-center flex-shrink-0 mr-6">
@@ -220,69 +220,38 @@ function Appartement() {
                 <div
                     className={
                         field
-                            ? "bg-[#ffffff] w-[25%] rounded-xl mt-4 ease-in-out duration-500"
-                            : "top-[100%]"
+                            ? "bg-[#ffffff] w-[30%] rounded-l-xl mt-4 ease-in-out duration-500"
+                            : "right-[100%] relative"
                     }
                 >
-                    <div className={field ? "" : "hidden"}>
-                        <div className="mt-6 flex items-center justify-between flex-wrap p-4">
-                            <span className="font-semibold text-xl tracking-tight">
-                                Add a new apartment
-                            </span>
-                            <button onClick={closeField}>
-                                <GrClose />
-                            </button>
-                        </div>
-                        <div className="h-2 bg-[#f3f3f3]"></div>
-                        <div className="px-4 mt-5 w-[70%] m-auto">
-                            <div className="mb-4">
-                                <label
-                                    className="text-left block text-gray-700 text-sm font-bold mb-2"
-                                    htmlFor="numApp"
-                                >
-                                    Number of apartment
-                                </label>
-                                <input
-                                    className="w-[100%] shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="numApp"
-                                    type="text"
-                                    placeholder="number of apartment"
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label
-                                    className="block text-gray-700 text-sm font-bold mb-2"
-                                    htmlFor="design"
-                                >
-                                    Design
-                                </label>
-                                <input
-                                    className="w-[100%] shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="design"
-                                    type="text"
-                                    placeholder="Design"
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label
-                                    className="block text-gray-700 text-sm font-bold mb-2"
-                                    htmlFor="rent"
-                                >
-                                    Rent
-                                </label>
-                                <input
-                                    className="shadow w-[100%] appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="rent"
-                                    type="number"
-                                    min={0}
-                                    placeholder="Rent"
-                                />
-                            </div>
-                        </div>
-                        <div className="h-2 bg-[#f3f3f3]"></div>
-                        <div className="py-5 flex items-center justify-between flex-wrap px-[50px]">
-                            <button>cancel</button>
-                            <button>submit</button>
+                    <div
+                        className="mt-6 flex items-center justify-between flex-wrap p-4" /*{
+                            field
+                                ? "mt-6 flex items-center justify-between flex-wrap p-4"
+                                : "hidden"
+                        }*/
+                    >
+                        <span className="font-semibold text-xl tracking-tight">
+                            Add a new apartment
+                        </span>
+                        <button onClick={closeField}>
+                            <GrClose />
+                        </button>
+                    </div>
+                    <div className="">
+                        <div className="mb-4">
+                            <label
+                                className="block text-gray-700 text-sm font-bold mb-2"
+                                htmlFor="username"
+                            >
+                                Username
+                            </label>
+                            <input
+                                className="shadow appearance-none border rounded w-[60%] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="username"
+                                type="text"
+                                placeholder="Username"
+                            />
                         </div>
                     </div>
                 </div>

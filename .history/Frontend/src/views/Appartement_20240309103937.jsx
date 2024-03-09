@@ -67,7 +67,7 @@ function Appartement() {
 
     return (
         <>
-            <div className="pl-6 pt-6 flex justify-between h-screen">
+            <div className="pl-6 pt-6 flex justify-between">
                 <div className="bg-[#ffffff] w-[65%] rounded-xl mr-5">
                     <header className="mt-6 flex items-center justify-between flex-wrap p-4">
                         <div className="flex items-center flex-shrink-0 mr-6">
@@ -201,7 +201,7 @@ function Appartement() {
                                 </tfoot>
                             </table>
                             <div className="h-2 bg-[#f3f3f3]"></div>
-                            <div className="flex items-center justify-end flex-wrap mt-3 py-4 px-6">
+                            <div className="h-[70px] flex items-center justify-end flex-wrap mt-3 py-4 px-6">
                                 <div className="flex items-center flex-shrink-0 mr-6">
                                     Page 1 of 10
                                 </div>

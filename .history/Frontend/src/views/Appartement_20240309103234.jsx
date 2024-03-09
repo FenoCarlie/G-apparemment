@@ -67,7 +67,7 @@ function Appartement() {
 
     return (
         <>
-            <div className="pl-6 pt-6 flex justify-between h-screen">
+            <div className="pl-6 pt-6 flex justify-between">
                 <div className="bg-[#ffffff] w-[65%] rounded-xl mr-5">
                     <header className="mt-6 flex items-center justify-between flex-wrap p-4">
                         <div className="flex items-center flex-shrink-0 mr-6">
@@ -280,7 +280,7 @@ function Appartement() {
                             </div>
                         </div>
                         <div className="h-2 bg-[#f3f3f3]"></div>
-                        <div className="py-5 flex items-center justify-between flex-wrap px-[50px]">
+                        <div className="p-4">
                             <button>cancel</button>
                             <button>submit</button>
                         </div>

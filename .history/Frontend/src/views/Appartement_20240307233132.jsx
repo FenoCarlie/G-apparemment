@@ -2,7 +2,6 @@ import { CiSearch } from "react-icons/ci";
 import { MdAddHomeWork } from "react-icons/md";
 import { MdModeEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
-import { GrClose } from "react-icons/gr";
 
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -58,16 +57,13 @@ function Appartement() {
 
     const [field, setField] = useState(true);
 
-    const openField = () => {
-        setField(true);
-    };
-    const closeField = () => {
-        setField(false);
+    const handelField = () => {
+        setField(!field);
     };
 
     return (
         <>
-            <div className="pl-6 pt-6 flex justify-between h-screen">
+            <div className="pl-6 pt-6 flex justify-between">
                 <div className="bg-[#ffffff] w-[65%] rounded-xl mr-5">
                     <header className="mt-6 flex items-center justify-between flex-wrap p-4">
                         <div className="flex items-center flex-shrink-0 mr-6">
@@ -100,7 +96,7 @@ function Appartement() {
                                 />
                             </div>
                             <button
-                                onClick={openField}
+                                onClick={handelField}
                                 data-modal-target="default-modal"
                                 data-modal-toggle="default-modal"
                                 className="ml-5 cursor-pointer group relative items-center flex gap-1.5 px-8 py-4 bg-black bg-opacity-80 text-[#f1f1f1] rounded-2xl hover:bg-opacity-70 transition font-semibold shadow-md"
@@ -219,71 +215,18 @@ function Appartement() {
                 </div>
                 <div
                     className={
-                        field
-                            ? "bg-[#ffffff] w-[25%] rounded-xl mt-4 ease-in-out duration-500"
-                            : "top-[100%]"
+                        !field
+                            ? "bg-[#ffffff] w-[30%] rounded-l-xl mt-4"
+                            : "right-[100%]"
                     }
                 >
-                    <div className={field ? "" : "hidden"}>
-                        <div className="mt-6 flex items-center justify-between flex-wrap p-4">
-                            <span className="font-semibold text-xl tracking-tight">
+                    <div className="mt-6 flex items-center justify-between flex-wrap p-4">
+                        <div className="flex items-center flex-shrink-0 mr-6">
+                            <div className="font-semibold text-xl tracking-tight">
                                 Add a new apartment
-                            </span>
-                            <button onClick={closeField}>
-                                <GrClose />
-                            </button>
-                        </div>
-                        <div className="h-2 bg-[#f3f3f3]"></div>
-                        <div className="px-4 mt-5 w-[70%] m-auto">
-                            <div className="mb-4">
-                                <label
-                                    className="text-left block text-gray-700 text-sm font-bold mb-2"
-                                    htmlFor="numApp"
-                                >
-                                    Number of apartment
-                                </label>
-                                <input
-                                    className="w-[100%] shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="numApp"
-                                    type="text"
-                                    placeholder="number of apartment"
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label
-                                    className="block text-gray-700 text-sm font-bold mb-2"
-                                    htmlFor="design"
-                                >
-                                    Design
-                                </label>
-                                <input
-                                    className="w-[100%] shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="design"
-                                    type="text"
-                                    placeholder="Design"
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label
-                                    className="block text-gray-700 text-sm font-bold mb-2"
-                                    htmlFor="rent"
-                                >
-                                    Rent
-                                </label>
-                                <input
-                                    className="shadow w-[100%] appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="rent"
-                                    type="number"
-                                    min={0}
-                                    placeholder="Rent"
-                                />
                             </div>
                         </div>
-                        <div className="h-2 bg-[#f3f3f3]"></div>
-                        <div className="py-5 flex items-center justify-between flex-wrap px-[50px]">
-                            <button>cancel</button>
-                            <button>submit</button>
-                        </div>
+                        <div className="w-[75%]"></div>
                     </div>
                 </div>
             </div>

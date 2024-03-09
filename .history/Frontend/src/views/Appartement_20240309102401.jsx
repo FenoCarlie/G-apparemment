@@ -67,7 +67,7 @@ function Appartement() {
 
     return (
         <>
-            <div className="pl-6 pt-6 flex justify-between h-screen">
+            <div className="pl-6 pt-6 flex justify-between">
                 <div className="bg-[#ffffff] w-[65%] rounded-xl mr-5">
                     <header className="mt-6 flex items-center justify-between flex-wrap p-4">
                         <div className="flex items-center flex-shrink-0 mr-6">
@@ -233,8 +233,7 @@ function Appartement() {
                                 <GrClose />
                             </button>
                         </div>
-                        <div className="h-2 bg-[#f3f3f3]"></div>
-                        <div className="px-4 mt-5 w-[70%] m-auto">
+                        <div className="px-4 bg-[#858585a4] w-[70%] m-auto">
                             <div className="mb-4">
                                 <label
                                     className="text-left block text-gray-700 text-sm font-bold mb-2"
@@ -278,11 +277,6 @@ function Appartement() {
                                     placeholder="Rent"
                                 />
                             </div>
-                        </div>
-                        <div className="h-2 bg-[#f3f3f3]"></div>
-                        <div className="py-5 flex items-center justify-between flex-wrap px-[50px]">
-                            <button>cancel</button>
-                            <button>submit</button>
                         </div>
                     </div>
                 </div>

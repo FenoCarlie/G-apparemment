@@ -67,7 +67,7 @@ function Appartement() {
 
     return (
         <>
-            <div className="pl-6 pt-6 flex justify-between h-screen">
+            <div className="p-6 flex">
                 <div className="bg-[#ffffff] w-[65%] rounded-xl mr-5">
                     <header className="mt-6 flex items-center justify-between flex-wrap p-4">
                         <div className="flex items-center flex-shrink-0 mr-6">
@@ -220,7 +220,7 @@ function Appartement() {
                 <div
                     className={
                         field
-                            ? "bg-[#ffffff] w-[25%] rounded-xl mt-4 ease-in-out duration-500"
+                            ? "bg-[#ffffff] ml-[200px] rounded-l-xl mt-4 ease-in-out duration-500"
                             : "top-[100%]"
                     }
                 >
@@ -233,17 +233,16 @@ function Appartement() {
                                 <GrClose />
                             </button>
                         </div>
-                        <div className="h-2 bg-[#f3f3f3]"></div>
-                        <div className="px-4 mt-5 w-[70%] m-auto">
+                        <div className="px-4">
                             <div className="mb-4">
                                 <label
-                                    className="text-left block text-gray-700 text-sm font-bold mb-2"
+                                    className="block text-gray-700 text-sm font-bold mb-2"
                                     htmlFor="numApp"
                                 >
                                     Number of apartment
                                 </label>
                                 <input
-                                    className="w-[100%] shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     id="numApp"
                                     type="text"
                                     placeholder="number of apartment"
@@ -257,7 +256,7 @@ function Appartement() {
                                     Design
                                 </label>
                                 <input
-                                    className="w-[100%] shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     id="design"
                                     type="text"
                                     placeholder="Design"
@@ -271,18 +270,12 @@ function Appartement() {
                                     Rent
                                 </label>
                                 <input
-                                    className="shadow w-[100%] appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     id="rent"
                                     type="number"
-                                    min={0}
                                     placeholder="Rent"
                                 />
                             </div>
-                        </div>
-                        <div className="h-2 bg-[#f3f3f3]"></div>
-                        <div className="py-5 flex items-center justify-between flex-wrap px-[50px]">
-                            <button>cancel</button>
-                            <button>submit</button>
                         </div>
                     </div>
                 </div>
