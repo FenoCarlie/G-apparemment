@@ -23,18 +23,15 @@ function Appartement() {
     const openField = (value) => {
         setField(true);
         setType(value);
+        alert(type);
     };
     const closeField = () => {
         setField(false);
     };
 
     const idApp = () => {
-        openField("edit");
-        setAppartement({
-            numApp: selectedAppartement.numApp,
-            design: selectedAppartement.design,
-            loyer: selectedAppartement.loyer,
-        });
+        alert(selectedAppartement._id);
+        openField("create");
     };
 
     const clearForm = () => {
@@ -91,33 +88,6 @@ function Appartement() {
             })
             .then(() => {
                 alert("Le projet a été créé avec succès");
-                getAppartement();
-                getLoyer();
-                clearForm();
-            })
-            .catch((err) => {
-                if (err.response && err.response.status === 422) {
-                    alert(err.response.data.errors.message);
-                } else {
-                    alert({ general: "Une erreur s'est produite." });
-                }
-            });
-    };
-
-    const handleUpdate = (event) => {
-        event.preventDefault();
-        setLoading(true);
-        axios
-            .put(
-                `http://localhost:6009/api/update/${selectedAppartement._id}`,
-                {
-                    numApp: appartement.numApp,
-                    design: appartement.design,
-                    loyer: appartement.loyer,
-                }
-            )
-            .then(() => {
-                alert("Le projet a été modifié avec succès");
                 getAppartement();
                 getLoyer();
                 clearForm();
@@ -243,7 +213,12 @@ function Appartement() {
                                                   <td className="text-center">
                                                       <button
                                                           className="h-10 w-10 hover:bg-[#afafaf]"
-                                                          onClick={idApp}
+                                                          //onClick={idApp}
+                                                          onClick={() =>
+                                                              openField(
+                                                                  "create"
+                                                              )
+                                                          }
                                                       >
                                                           <MdModeEdit
                                                               style={{
@@ -300,9 +275,7 @@ function Appartement() {
                             <span className="font-semibold text-xl tracking-tight">
                                 {type === "create"
                                     ? "New apartment"
-                                    : type === "edit"
-                                    ? "Edit an apartment"
-                                    : ""}
+                                    : "Edit an apartment"}
                             </span>
                             <button onClick={closeField}>
                                 <GrClose />
@@ -380,9 +353,7 @@ function Appartement() {
                         </div>
                         <div className="h-2 bg-[#f3f3f3]"></div>
                         <form
-                            onSubmit={
-                                type === "create" ? handleSubmit : handleUpdate
-                            }
+                            onSubmit={handleSubmit}
                             className="py-5 flex items-center justify-between flex-wrap px-[50px]"
                         >
                             <button>submit</button>

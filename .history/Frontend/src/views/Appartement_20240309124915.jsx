@@ -11,40 +11,26 @@ function Appartement() {
     const [loading, setLoading] = useState(false);
     const [notification, setNotification] = useState(null);
     const [appartements, setAppartements] = useState({});
-    const [type, setType] = useState("");
-    const [appartement, setAppartement] = useState({
-        numApp: "",
-        design: "",
-        loyer: "",
-    });
 
-    const [field, setField] = useState(false);
+    const [field, setField] = useState(true);
 
-    const openField = (value) => {
+    const openField = () => {
         setField(true);
-        setType(value);
     };
     const closeField = () => {
         setField(false);
     };
 
-    const idApp = () => {
-        openField("edit");
-        setAppartement({
-            numApp: selectedAppartement.numApp,
-            design: selectedAppartement.design,
-            loyer: selectedAppartement.loyer,
-        });
-    };
-
     const clearForm = () => {
-        setAppartement({
-            numApp: "",
-            design: "",
-            loyer: "",
-        });
+        document.getElementById("form").reset();
         closeField();
     };
+
+    const [appartement, setAppartement] = useState({
+        numApp: "",
+        design: "",
+        loyer: "",
+    });
 
     const [loyer, setLoyer] = useState({});
 
@@ -52,6 +38,12 @@ function Appartement() {
 
     const handleAppartementClick = (appartement) => {
         setSelectedAppartement(appartement);
+    };
+
+    const idApp = () => {
+        if (selectedAppartement) {
+            console.log(selectedAppartement._id);
+        }
     };
 
     const getAppartement = () => {
@@ -97,34 +89,7 @@ function Appartement() {
             })
             .catch((err) => {
                 if (err.response && err.response.status === 422) {
-                    alert(err.response.data.errors.message);
-                } else {
-                    alert({ general: "Une erreur s'est produite." });
-                }
-            });
-    };
-
-    const handleUpdate = (event) => {
-        event.preventDefault();
-        setLoading(true);
-        axios
-            .put(
-                `http://localhost:6009/api/update/${selectedAppartement._id}`,
-                {
-                    numApp: appartement.numApp,
-                    design: appartement.design,
-                    loyer: appartement.loyer,
-                }
-            )
-            .then(() => {
-                alert("Le projet a été modifié avec succès");
-                getAppartement();
-                getLoyer();
-                clearForm();
-            })
-            .catch((err) => {
-                if (err.response && err.response.status === 422) {
-                    alert(err.response.data.errors.message);
+                    alert(err.response.data.errors);
                 } else {
                     alert({ general: "Une erreur s'est produite." });
                 }
@@ -171,7 +136,7 @@ function Appartement() {
                                 />
                             </div>
                             <button
-                                onClick={() => openField("create")}
+                                onClick={openField}
                                 data-modal-target="default-modal"
                                 data-modal-toggle="default-modal"
                                 className="ml-5 cursor-pointer group relative items-center flex gap-1.5 px-8 py-4 bg-black bg-opacity-80 text-[#f1f1f1] rounded-2xl hover:bg-opacity-70 transition font-semibold shadow-md"
@@ -291,18 +256,17 @@ function Appartement() {
                 <div
                     className={
                         field
-                            ? "bg-[#ffffff] w-[25%] rounded-xl mt-4 ease-in-out duration-500 h-[450px]"
+                            ? "bg-[#ffffff] w-[25%] rounded-xl mt-4 ease-in-out duration-500 h-[100px]"
                             : "top-[100%]"
                     }
                 >
-                    <div className={field ? "" : "hidden"}>
+                    <form
+                        onSubmit={handleSubmit}
+                        className={field ? "" : "hidden"}
+                    >
                         <div className="mt-6 flex items-center justify-between flex-wrap p-4">
                             <span className="font-semibold text-xl tracking-tight">
-                                {type === "create"
-                                    ? "New apartment"
-                                    : type === "edit"
-                                    ? "Edit an apartment"
-                                    : ""}
+                                Add a new apartment
                             </span>
                             <button onClick={closeField}>
                                 <GrClose />
@@ -379,15 +343,11 @@ function Appartement() {
                             </div>
                         </div>
                         <div className="h-2 bg-[#f3f3f3]"></div>
-                        <form
-                            onSubmit={
-                                type === "create" ? handleSubmit : handleUpdate
-                            }
-                            className="py-5 flex items-center justify-between flex-wrap px-[50px]"
-                        >
+                        <div className="py-5 flex items-center justify-between flex-wrap px-[50px]">
+                            <button>cancel</button>
                             <button>submit</button>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </>

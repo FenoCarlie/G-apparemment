@@ -9,49 +9,31 @@ import { useEffect, useState } from "react";
 
 function Appartement() {
     const [loading, setLoading] = useState(false);
-    const [notification, setNotification] = useState(null);
-    const [appartements, setAppartements] = useState({});
-    const [type, setType] = useState("");
-    const [appartement, setAppartement] = useState({
+    const [field, setField] = useState(true);
+    const [appartement, setAppartement] = useState([]);
+    const [newData, setNewData] = useState({
         numApp: "",
         design: "",
         loyer: "",
     });
+    const [loyer, setLoyer] = useState({});
+    const [selectedAppartement, setSelectedAppartement] = useState(null);
 
-    const [field, setField] = useState(false);
-
-    const openField = (value) => {
+    const openField = () => {
         setField(true);
-        setType(value);
     };
     const closeField = () => {
         setField(false);
     };
 
-    const idApp = () => {
-        openField("edit");
-        setAppartement({
-            numApp: selectedAppartement.numApp,
-            design: selectedAppartement.design,
-            loyer: selectedAppartement.loyer,
-        });
-    };
-
-    const clearForm = () => {
-        setAppartement({
-            numApp: "",
-            design: "",
-            loyer: "",
-        });
-        closeField();
-    };
-
-    const [loyer, setLoyer] = useState({});
-
-    const [selectedAppartement, setSelectedAppartement] = useState(null);
-
     const handleAppartementClick = (appartement) => {
         setSelectedAppartement(appartement);
+    };
+
+    const idApp = () => {
+        if (selectedAppartement) {
+            console.log(selectedAppartement._id);
+        }
     };
 
     const getAppartement = () => {
@@ -60,7 +42,7 @@ function Appartement() {
             .get(`http://localhost:6009/api/appartements`)
             .then(({ data }) => {
                 setLoading(false);
-                setAppartements(data);
+                setAppartement(data);
             })
             .catch(() => {
                 setLoading(false);
@@ -84,50 +66,19 @@ function Appartement() {
         event.preventDefault();
         setLoading(true);
         axios
-            .post(`http://localhost:6009/api/create`, {
-                numApp: appartement.numApp,
-                design: appartement.design,
-                loyer: appartement.loyer,
+            .post(`http://localhost:6009/api/create`, newData)
+            .then(({ data }) => {
+                alert("Data added successfully");
+                setLoading(false);
+                setAppartement([data, ...appartement]);
+                setNewData({
+                    numApp: "",
+                    design: "",
+                    loyer: "",
+                });
             })
-            .then(() => {
-                alert("Le projet a été créé avec succès");
-                getAppartement();
-                getLoyer();
-                clearForm();
-            })
-            .catch((err) => {
-                if (err.response && err.response.status === 422) {
-                    alert(err.response.data.errors.message);
-                } else {
-                    alert({ general: "Une erreur s'est produite." });
-                }
-            });
-    };
-
-    const handleUpdate = (event) => {
-        event.preventDefault();
-        setLoading(true);
-        axios
-            .put(
-                `http://localhost:6009/api/update/${selectedAppartement._id}`,
-                {
-                    numApp: appartement.numApp,
-                    design: appartement.design,
-                    loyer: appartement.loyer,
-                }
-            )
-            .then(() => {
-                alert("Le projet a été modifié avec succès");
-                getAppartement();
-                getLoyer();
-                clearForm();
-            })
-            .catch((err) => {
-                if (err.response && err.response.status === 422) {
-                    alert(err.response.data.errors.message);
-                } else {
-                    alert({ general: "Une erreur s'est produite." });
-                }
+            .catch(() => {
+                setLoading(false);
             });
     };
 
@@ -146,7 +97,6 @@ function Appartement() {
                                 Table Appartement
                             </span>
                         </div>
-
                         <div className="text-sm lg:flex-grow flex justify-end">
                             <div className="flex">
                                 <div className="flex w-10 items-center justify-center rounded-tl-lg rounded-bl-lg border-r border-gray-200 bg-[#dbdbdb] p-5">
@@ -171,7 +121,7 @@ function Appartement() {
                                 />
                             </div>
                             <button
-                                onClick={() => openField("create")}
+                                onClick={openField}
                                 data-modal-target="default-modal"
                                 data-modal-toggle="default-modal"
                                 className="ml-5 cursor-pointer group relative items-center flex gap-1.5 px-8 py-4 bg-black bg-opacity-80 text-[#f1f1f1] rounded-2xl hover:bg-opacity-70 transition font-semibold shadow-md"
@@ -186,7 +136,6 @@ function Appartement() {
                             </button>
                         </div>
                     </header>
-                    {/*  LIST APPARTEMENT */}
                     <div className="mt-6">
                         <div className="relative overflow-x-auto">
                             <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
@@ -211,48 +160,47 @@ function Appartement() {
                                                         cursor: "default",
                                                     }}
                                                 />
-                                                {/* FF0000 */}
                                             </button>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
-                                    {appartements && appartements.length > 0
-                                        ? appartements.map((item, index) => (
+                                    {appartement && appartement.length > 0
+                                        ? appartement.map((item, index) => (
                                               <tr
-                                                  key={index}
-                                                  className="bg-white"
-                                                  onClick={() =>
+                                                 key={index}
+                                                 className="bg-white"
+                                                 onClick={() =>
                                                       handleAppartementClick(
                                                           item
                                                       )
-                                                  }
+                                                 }
                                               >
-                                                  <th
+                                                 <th
                                                       scope="row"
                                                       className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                                                  >
+                                                 >
                                                       {item.numApp}
-                                                  </th>
-                                                  <td className="px-6 py-4">
+                                                 </th>
+                                                 <td className="px-6 py-4">
                                                       {item.design}
-                                                  </td>
-                                                  <td className="px-6 py-4">
+                                                 </td>
+                                                 <td className="px-6 py-4">
                                                       {item.loyer}
-                                                  </td>
-                                                  <td className="text-center">
+                                                 </td>
+                                                 <td className="text-center">
                                                       <button
                                                           className="h-10 w-10 hover:bg-[#afafaf]"
                                                           onClick={idApp}
                                                       >
                                                           <MdModeEdit
                                                               style={{
-                                                                  width: "24px",
-                                                                  height: "24px",
+                                                                 width: "24px",
+                                                                 height: "24px",
                                                               }}
                                                           />
                                                       </button>
-                                                  </td>
+                                                 </td>
                                               </tr>
                                           ))
                                         : null}
@@ -291,104 +239,75 @@ function Appartement() {
                 <div
                     className={
                         field
-                            ? "bg-[#ffffff] w-[25%] rounded-xl mt-4 ease-in-out duration-500 h-[450px]"
+                            ? "bg-[#ffffff] w-[25%] rounded-xl mt-4 ease-in-out duration-500"
                             : "top-[100%]"
                     }
                 >
-                    <div className={field ? "" : "hidden"}>
-                        <div className="mt-6 flex items-center justify-between flex-wrap p-4">
-                            <span className="font-semibold text-xl tracking-tight">
-                                {type === "create"
-                                    ? "New apartment"
-                                    : type === "edit"
-                                    ? "Edit an apartment"
-                                    : ""}
-                            </span>
-                            <button onClick={closeField}>
-                                <GrClose />
-                            </button>
-                        </div>
-                        <div className="h-2 bg-[#f3f3f3]"></div>
-                        <div className="px-4 mt-5 w-[70%] m-auto">
-                            <div className="mb-4">
-                                <label
-                                    className="text-left block text-gray-700 text-sm font-bold mb-2"
-                                    htmlFor="numApp"
-                                >
-                                    Number of apartment
-                                </label>
-                                <input
-                                    className="w-[100%] shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="numApp"
-                                    name="numApp"
-                                    value={appartement.numApp}
-                                    onChange={(event) =>
-                                        setAppartement({
-                                            ...appartement,
-                                            numApp: event.target.value,
-                                        })
-                                    }
-                                    type="text"
-                                    placeholder="number of apartment"
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label
-                                    className="block text-gray-700 text-sm font-bold mb-2"
-                                    htmlFor="design"
-                                >
-                                    Design
-                                </label>
-                                <input
-                                    className="w-[100%] shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="design"
-                                    type="text"
-                                    placeholder="Design"
-                                    name="design"
-                                    value={appartement.design}
-                                    onChange={(event) =>
-                                        setAppartement({
-                                            ...appartement,
-                                            design: event.target.value,
-                                        })
-                                    }
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label
-                                    className="block text-gray-700 text-sm font-bold mb-2"
-                                    htmlFor="rent"
-                                >
-                                    Rent
-                                </label>
-                                <input
-                                    className="shadow w-[100%] appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    id="rent"
-                                    type="number"
-                                    min={0}
-                                    placeholder="Rent"
-                                    name="loyer"
-                                    value={appartement.loyer}
-                                    onChange={(event) =>
-                                        setAppartement({
-                                            ...appartement,
-                                            loyer: event.target.value,
-                                        })
-                                    }
-                                />
-                            </div>
-                        </div>
-                        <div className="h-2 bg-[#f3f3f3]"></div>
-                        <form
-                            onSubmit={
-                                type === "create" ? handleSubmit : handleUpdate
-                            }
-                            className="py-5 flex items-center justify-between flex-wrap px-[50px]"
+                    <form
+                        onSubmit={handleSubmint}
+                        className={field ? "" : "hidden"}
                         >
-                            <button>submit</button>
-                        </form>
+                    <div className="flex flex-col">
+                        <label htmlFor="numApp" className="text-gray-700">
+                            Number of Apartment
+                        </label>
+                        <input
+                            type="text"
+                            id="numApp"
+                            value={newData.numApp}
+                            onChange={(e) =>
+                                setNewData({
+                                    ...newData,
+                                    numApp: e.target.value,
+                                })
+                            }
+                            className="border-2 border-gray-300 p-2 rounded-lg"
+                            placeholder="Enter number of apartment"
+                        />
                     </div>
-                </div>
+                    <div className="flex flex-col">
+                        <label htmlFor="design" className="text-gray-700">
+                            Design
+                        </label>
+                        <input
+                            type="text"
+                            id="design"
+                            value={newData.design}
+                            onChange={(e) =>
+                                setNewData({
+                                    ...newData,
+                                    design: e.target.value,
+                                })
+                            }
+                            className="border-2 border-gray-300 p-2 rounded-lg"
+                            placeholder="Enter design"
+                        />
+                    </div>
+                    <div className="flex flex-col">
+                        <label htmlFor="loyer" className="text-gray-700">
+                            Loyer
+                        </label>
+                        <input
+                            type="text"
+                            id="loyer"
+                            value={newData.loyer}
+                            onChange={(e) =>
+                                setNewData({
+                                    ...newData,
+                                    loyer: e.target.value,
+                                })
+                            }
+                            className="border-2 border-gray-300 p-2 rounded-lg"
+                            placeholder="Enter loyer"
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                    >
+                        Submit
+                    </button>
+                </form>
             </div>
         </>
     );

@@ -12,11 +12,6 @@ function Appartement() {
     const [notification, setNotification] = useState(null);
     const [appartements, setAppartements] = useState({});
     const [type, setType] = useState("");
-    const [appartement, setAppartement] = useState({
-        numApp: "",
-        design: "",
-        loyer: "",
-    });
 
     const [field, setField] = useState(false);
 
@@ -29,12 +24,10 @@ function Appartement() {
     };
 
     const idApp = () => {
-        openField("edit");
-        setAppartement({
-            numApp: selectedAppartement.numApp,
-            design: selectedAppartement.design,
-            loyer: selectedAppartement.loyer,
-        });
+        if (selectedAppartement) {
+            console.log(selectedAppartement._id);
+            openField("create");
+        }
     };
 
     const clearForm = () => {
@@ -45,6 +38,12 @@ function Appartement() {
         });
         closeField();
     };
+
+    const [appartement, setAppartement] = useState({
+        numApp: "",
+        design: "",
+        loyer: "",
+    });
 
     const [loyer, setLoyer] = useState({});
 
@@ -91,33 +90,6 @@ function Appartement() {
             })
             .then(() => {
                 alert("Le projet a été créé avec succès");
-                getAppartement();
-                getLoyer();
-                clearForm();
-            })
-            .catch((err) => {
-                if (err.response && err.response.status === 422) {
-                    alert(err.response.data.errors.message);
-                } else {
-                    alert({ general: "Une erreur s'est produite." });
-                }
-            });
-    };
-
-    const handleUpdate = (event) => {
-        event.preventDefault();
-        setLoading(true);
-        axios
-            .put(
-                `http://localhost:6009/api/update/${selectedAppartement._id}`,
-                {
-                    numApp: appartement.numApp,
-                    design: appartement.design,
-                    loyer: appartement.loyer,
-                }
-            )
-            .then(() => {
-                alert("Le projet a été modifié avec succès");
                 getAppartement();
                 getLoyer();
                 clearForm();
@@ -300,9 +272,7 @@ function Appartement() {
                             <span className="font-semibold text-xl tracking-tight">
                                 {type === "create"
                                     ? "New apartment"
-                                    : type === "edit"
-                                    ? "Edit an apartment"
-                                    : ""}
+                                    : "Edit an apartment"}
                             </span>
                             <button onClick={closeField}>
                                 <GrClose />
@@ -380,9 +350,7 @@ function Appartement() {
                         </div>
                         <div className="h-2 bg-[#f3f3f3]"></div>
                         <form
-                            onSubmit={
-                                type === "create" ? handleSubmit : handleUpdate
-                            }
+                            onSubmit={handleSubmit}
                             className="py-5 flex items-center justify-between flex-wrap px-[50px]"
                         >
                             <button>submit</button>

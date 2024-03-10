@@ -29,6 +29,7 @@ function Appartement() {
     };
 
     const idApp = () => {
+        alert(selectedAppartement._id);
         openField("edit");
         setAppartement({
             numApp: selectedAppartement.numApp,

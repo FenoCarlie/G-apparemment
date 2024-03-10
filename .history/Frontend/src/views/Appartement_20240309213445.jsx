@@ -12,13 +12,8 @@ function Appartement() {
     const [notification, setNotification] = useState(null);
     const [appartements, setAppartements] = useState({});
     const [type, setType] = useState("");
-    const [appartement, setAppartement] = useState({
-        numApp: "",
-        design: "",
-        loyer: "",
-    });
 
-    const [field, setField] = useState(false);
+    const [field, setField] = useState(true);
 
     const openField = (value) => {
         setField(true);
@@ -26,15 +21,6 @@ function Appartement() {
     };
     const closeField = () => {
         setField(false);
-    };
-
-    const idApp = () => {
-        openField("edit");
-        setAppartement({
-            numApp: selectedAppartement.numApp,
-            design: selectedAppartement.design,
-            loyer: selectedAppartement.loyer,
-        });
     };
 
     const clearForm = () => {
@@ -46,12 +32,24 @@ function Appartement() {
         closeField();
     };
 
+    const [appartement, setAppartement] = useState({
+        numApp: "",
+        design: "",
+        loyer: "",
+    });
+
     const [loyer, setLoyer] = useState({});
 
     const [selectedAppartement, setSelectedAppartement] = useState(null);
 
     const handleAppartementClick = (appartement) => {
         setSelectedAppartement(appartement);
+    };
+
+    const idApp = () => {
+        if (selectedAppartement) {
+            console.log(selectedAppartement._id);
+        }
     };
 
     const getAppartement = () => {
@@ -91,33 +89,6 @@ function Appartement() {
             })
             .then(() => {
                 alert("Le projet a été créé avec succès");
-                getAppartement();
-                getLoyer();
-                clearForm();
-            })
-            .catch((err) => {
-                if (err.response && err.response.status === 422) {
-                    alert(err.response.data.errors.message);
-                } else {
-                    alert({ general: "Une erreur s'est produite." });
-                }
-            });
-    };
-
-    const handleUpdate = (event) => {
-        event.preventDefault();
-        setLoading(true);
-        axios
-            .put(
-                `http://localhost:6009/api/update/${selectedAppartement._id}`,
-                {
-                    numApp: appartement.numApp,
-                    design: appartement.design,
-                    loyer: appartement.loyer,
-                }
-            )
-            .then(() => {
-                alert("Le projet a été modifié avec succès");
                 getAppartement();
                 getLoyer();
                 clearForm();
@@ -298,11 +269,7 @@ function Appartement() {
                     <div className={field ? "" : "hidden"}>
                         <div className="mt-6 flex items-center justify-between flex-wrap p-4">
                             <span className="font-semibold text-xl tracking-tight">
-                                {type === "create"
-                                    ? "New apartment"
-                                    : type === "edit"
-                                    ? "Edit an apartment"
-                                    : ""}
+                                Add a new apartment
                             </span>
                             <button onClick={closeField}>
                                 <GrClose />
@@ -380,11 +347,10 @@ function Appartement() {
                         </div>
                         <div className="h-2 bg-[#f3f3f3]"></div>
                         <form
-                            onSubmit={
-                                type === "create" ? handleSubmit : handleUpdate
-                            }
+                            onSubmit={handleSubmit}
                             className="py-5 flex items-center justify-between flex-wrap px-[50px]"
                         >
+                            <button onClick={clearForm}>cancel</button>
                             <button>submit</button>
                         </form>
                     </div>

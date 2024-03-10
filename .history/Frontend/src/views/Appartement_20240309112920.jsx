@@ -9,43 +9,13 @@ import { useEffect, useState } from "react";
 
 function Appartement() {
     const [loading, setLoading] = useState(false);
-    const [notification, setNotification] = useState(null);
-    const [appartements, setAppartements] = useState({});
-    const [type, setType] = useState("");
+
     const [appartement, setAppartement] = useState({
-        numApp: "",
-        design: "",
-        loyer: "",
+        numApp:""
+        design:
+        loyer:""
+
     });
-
-    const [field, setField] = useState(false);
-
-    const openField = (value) => {
-        setField(true);
-        setType(value);
-    };
-    const closeField = () => {
-        setField(false);
-    };
-
-    const idApp = () => {
-        openField("edit");
-        setAppartement({
-            numApp: selectedAppartement.numApp,
-            design: selectedAppartement.design,
-            loyer: selectedAppartement.loyer,
-        });
-    };
-
-    const clearForm = () => {
-        setAppartement({
-            numApp: "",
-            design: "",
-            loyer: "",
-        });
-        closeField();
-    };
-
     const [loyer, setLoyer] = useState({});
 
     const [selectedAppartement, setSelectedAppartement] = useState(null);
@@ -54,13 +24,19 @@ function Appartement() {
         setSelectedAppartement(appartement);
     };
 
+    const idApp = () => {
+        if (selectedAppartement) {
+            console.log(selectedAppartement._id);
+        }
+    };
+
     const getAppartement = () => {
         setLoading(true);
         axios
             .get(`http://localhost:6009/api/appartements`)
             .then(({ data }) => {
                 setLoading(false);
-                setAppartements(data);
+                setAppartement(data);
             })
             .catch(() => {
                 setLoading(false);
@@ -80,65 +56,23 @@ function Appartement() {
             });
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        setLoading(true);
-        axios
-            .post(`http://localhost:6009/api/create`, {
-                numApp: appartement.numApp,
-                design: appartement.design,
-                loyer: appartement.loyer,
-            })
-            .then(() => {
-                alert("Le projet a été créé avec succès");
-                getAppartement();
-                getLoyer();
-                clearForm();
-            })
-            .catch((err) => {
-                if (err.response && err.response.status === 422) {
-                    alert(err.response.data.errors.message);
-                } else {
-                    alert({ general: "Une erreur s'est produite." });
-                }
-            });
-    };
-
-    const handleUpdate = (event) => {
-        event.preventDefault();
-        setLoading(true);
-        axios
-            .put(
-                `http://localhost:6009/api/update/${selectedAppartement._id}`,
-                {
-                    numApp: appartement.numApp,
-                    design: appartement.design,
-                    loyer: appartement.loyer,
-                }
-            )
-            .then(() => {
-                alert("Le projet a été modifié avec succès");
-                getAppartement();
-                getLoyer();
-                clearForm();
-            })
-            .catch((err) => {
-                if (err.response && err.response.status === 422) {
-                    alert(err.response.data.errors.message);
-                } else {
-                    alert({ general: "Une erreur s'est produite." });
-                }
-            });
-    };
-
     useEffect(() => {
         getAppartement();
         getLoyer();
     }, []);
 
+    const [field, setField] = useState(true);
+
+    const openField = () => {
+        setField(true);
+    };
+    const closeField = () => {
+        setField(false);
+    };
+
     return (
         <>
-            <div className="pl-6 pt-6 flex justify-between">
+            <div className="pl-6 pt-6 flex justify-between h-screen">
                 <div className="bg-[#ffffff] w-[65%] rounded-xl mr-5">
                     <header className="mt-6 flex items-center justify-between flex-wrap p-4">
                         <div className="flex items-center flex-shrink-0 mr-6">
@@ -171,7 +105,7 @@ function Appartement() {
                                 />
                             </div>
                             <button
-                                onClick={() => openField("create")}
+                                onClick={openField}
                                 data-modal-target="default-modal"
                                 data-modal-toggle="default-modal"
                                 className="ml-5 cursor-pointer group relative items-center flex gap-1.5 px-8 py-4 bg-black bg-opacity-80 text-[#f1f1f1] rounded-2xl hover:bg-opacity-70 transition font-semibold shadow-md"
@@ -217,8 +151,8 @@ function Appartement() {
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
-                                    {appartements && appartements.length > 0
-                                        ? appartements.map((item, index) => (
+                                    {appartement && appartement.length > 0
+                                        ? appartement.map((item, index) => (
                                               <tr
                                                   key={index}
                                                   className="bg-white"
@@ -291,18 +225,14 @@ function Appartement() {
                 <div
                     className={
                         field
-                            ? "bg-[#ffffff] w-[25%] rounded-xl mt-4 ease-in-out duration-500 h-[450px]"
+                            ? "bg-[#ffffff] w-[25%] rounded-xl mt-4 ease-in-out duration-500"
                             : "top-[100%]"
                     }
                 >
                     <div className={field ? "" : "hidden"}>
                         <div className="mt-6 flex items-center justify-between flex-wrap p-4">
                             <span className="font-semibold text-xl tracking-tight">
-                                {type === "create"
-                                    ? "New apartment"
-                                    : type === "edit"
-                                    ? "Edit an apartment"
-                                    : ""}
+                                Add a new apartment
                             </span>
                             <button onClick={closeField}>
                                 <GrClose />
@@ -320,14 +250,6 @@ function Appartement() {
                                 <input
                                     className="w-[100%] shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     id="numApp"
-                                    name="numApp"
-                                    value={appartement.numApp}
-                                    onChange={(event) =>
-                                        setAppartement({
-                                            ...appartement,
-                                            numApp: event.target.value,
-                                        })
-                                    }
                                     type="text"
                                     placeholder="number of apartment"
                                 />
@@ -344,14 +266,6 @@ function Appartement() {
                                     id="design"
                                     type="text"
                                     placeholder="Design"
-                                    name="design"
-                                    value={appartement.design}
-                                    onChange={(event) =>
-                                        setAppartement({
-                                            ...appartement,
-                                            design: event.target.value,
-                                        })
-                                    }
                                 />
                             </div>
                             <div className="mb-4">
@@ -367,26 +281,14 @@ function Appartement() {
                                     type="number"
                                     min={0}
                                     placeholder="Rent"
-                                    name="loyer"
-                                    value={appartement.loyer}
-                                    onChange={(event) =>
-                                        setAppartement({
-                                            ...appartement,
-                                            loyer: event.target.value,
-                                        })
-                                    }
                                 />
                             </div>
                         </div>
                         <div className="h-2 bg-[#f3f3f3]"></div>
-                        <form
-                            onSubmit={
-                                type === "create" ? handleSubmit : handleUpdate
-                            }
-                            className="py-5 flex items-center justify-between flex-wrap px-[50px]"
-                        >
+                        <div className="py-5 flex items-center justify-between flex-wrap px-[50px]">
+                            <button>cancel</button>
                             <button>submit</button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
